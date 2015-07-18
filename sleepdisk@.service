@@ -1,0 +1,11 @@
+[Unit]
+Description=Sleep disk for %i
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/sleepdisk.sh %i %i
+RestartSec=30
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

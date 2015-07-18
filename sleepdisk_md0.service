@@ -1,0 +1,11 @@
+[Unit]
+Description=Sleep disk for md0 (sdc/sdd)
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/sleepdisk.sh md0 sd[c-d]
+RestartSec=30
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
