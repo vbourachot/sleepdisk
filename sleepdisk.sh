@@ -18,6 +18,12 @@ monitorDisk() {
 
   # if disk(s) not in standby && new_ior == ior && new_iow == iow, sleep
   while :; do
+	  # skip if the array is being resynced (does not show in diskstats)
+	  if [ -f '/proc/mdstat' ] && grep -q $logical_disk /proc/mdstat \
+			&& grep -q -e 'resync' -e 'check' /proc/mdstat; then
+		  sleep $SLEEP_TIME
+		  continue
+	  fi
       hdparm -C /dev/$physical_disks | grep -q 'active' >/dev/null 2>&1
       # $? == 0 if any disk is active, 1 if all disks are in standby
       if [ $? -ne 1 ]; then
